@@ -19,6 +19,9 @@ option('ip6', type: 'boolean', value: true,
 option('rt', type: 'boolean', value: true,
        description: 'use POSIX realtime library')
 
+option('glib', type: 'feature',
+       description: 'use GLib')
+
 option('poll-port', type: 'combo', value: 'maybe', choices: ['maybe', 'yes', 'no'],
        description: 'Use this option in systems emulating poll with select')
 

@@ -584,6 +584,8 @@ if get_option('rt')
     description: 'Define to 1 if you have CLOCK_MONOTONIC')
 endif
 
+glib_dep = dependency('glib-2.0', required: get_option('glib'))
+
 ## ===========================================================================
 ## Checks for library functions.
 ## ===========================================================================
@@ -860,7 +862,7 @@ conf.set_quoted('VERSION', meson.project_version())
 configure_file(output: 'config.h', configuration: conf)
 
 subdir('libsofia-sip-ua')
-# subdir('libsofia-sip-ua-glib', if_found: glib_dep)
+subdir('libsofia-sip-ua-glib', if_found: glib_dep)
 # subdir('packages')
 # subdir('tests')
 # subdir('s2check')
