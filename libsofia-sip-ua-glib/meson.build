@@ -31,3 +31,11 @@ libsofia_sip_ua_glib_dep = declare_dependency(
 )
 
 meson.override_dependency('sofia-sip-ua-glib', libsofia_sip_ua_glib_dep)
+
+pkg = import('pkgconfig')
+pkg.generate(
+  libsofia_sip_ua_glib_lib,
+  description: 'Sofia-SIP library bindings for glib',
+  subdirs: include_sofiadir,
+  variables: {'sofiaawkdir': '${datadir}/sofia-sip'},
+)

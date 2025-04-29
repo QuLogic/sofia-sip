@@ -42,3 +42,11 @@ libsofia_sip_ua_dep = declare_dependency(
 )
 
 meson.override_dependency('sofia-sip-ua', libsofia_sip_ua_dep)
+
+pkg = import('pkgconfig')
+pkg.generate(
+  libsofia_sip_ua_lib,
+  description: 'Sofia-SIP - a RFC3261 compliant SIP User-Agent library',
+  subdirs: include_sofiadir,
+  variables: {'sofiaawkdir': '${datadir}/sofia-sip'},
+)
