@@ -1,0 +1,45 @@
+option('expensive-checks', type: 'boolean', value: false,
+       description: 'run also expensive checks')
+
+option('size-compat', type: 'boolean', value: true,
+       description: 'use compatibility size_t types')
+
+option('experimental', type: 'boolean', value: false,
+       description: 'enable experimental features')
+
+option('tag-cast', type: 'boolean', value: true,
+       description: 'cast tag values with inlined functions')
+
+option('corefoundation', type: 'boolean', value: false,
+       description: 'compile with OSX COREFOUNDATION')
+
+option('ip6', type: 'boolean', value: true,
+       description: 'enable IPv6 functionality')
+
+option('rt', type: 'boolean', value: true,
+       description: 'use POSIX realtime library')
+
+option('poll-port', type: 'combo', value: 'maybe', choices: ['maybe', 'yes', 'no'],
+       description: 'Use this option in systems emulating poll with select')
+
+option('openssl', type: 'feature',
+       description: 'use OpenSSL')
+
+option('sigcomp', type: 'string', value: '',
+       description: 'use Sofia SigComp package')
+
+option('sctp', type: 'boolean', value: false,
+       description: 'use SCTP')
+
+option('stun', type: 'boolean', value: true,
+       description: 'enable stun module')
+
+option('nth', type: 'boolean', value: true,
+       description: 'enable HTTP-related modules nth and http')
+
+# Disable NTLM support by default
+option('ntlm', type: 'boolean', value: false,
+       description: 'enable NTLM support')
+
+option('memleak_log', type: 'boolean', value: false,
+       description: 'enable logging of possible memory leaks')
