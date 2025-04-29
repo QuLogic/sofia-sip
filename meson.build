@@ -810,8 +810,8 @@ conf.set('HAVE_ZLIB_COMPRESS', zlib_dep.found(),
 
 # dl is currently used only in testing
 dl_dep = dependency('dl', required: false)
-conf.set('HAVE_LIBDL', dl_dep.found(),
-         description: 'Define to 1 if dl library is available')
+conf.set10('HAVE_LIBDL', dl_dep.found(),
+           description: 'Define to 1 if dl library is available')
 
 ### internal modules
 ### ----------------
@@ -864,7 +864,7 @@ configure_file(output: 'config.h', configuration: conf)
 subdir('libsofia-sip-ua')
 subdir('libsofia-sip-ua-glib', if_found: glib_dep)
 # subdir('packages')
-# subdir('tests')
+subdir('tests')
 # subdir('s2check')
 # subdir('utils')
 # subdir('win32')
