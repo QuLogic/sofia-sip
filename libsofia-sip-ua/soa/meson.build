@@ -38,11 +38,9 @@ libsofia_sip_ua_lib_deps += libsoa
 # Tests
 
 # Needs s2check, which isn't built yet.
-# test_soa = executable(
-#   'test_soa',
-#   'test_soa.c',
-#   include_directories: [
-#     toplevel_inc, libsofia_sip_ua_inc,
-#     include_directories('../../s2check')],
-#   link_with: [libsoa, libsip, libmsg, liburl, libsdp, libipt, libbnf, libsu, libs2])
-# test('test_soa', test_soa, suite: 'soa')
+s2check_tests += {
+  'test_soa': {
+    'sources': files('test_soa.c'),
+    'include_directories': toplevel_inc,
+  },
+}

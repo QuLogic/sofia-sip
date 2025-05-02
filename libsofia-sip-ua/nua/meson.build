@@ -61,12 +61,17 @@ libsofia_sip_ua_lib_deps += libnua
 # Tests
 
 # Needs s2check, which isn't built yet.
-# check_nua = executable(
-#   'check_nua',
-#   'check_nua.c',
-#   include_directories: [
-#     toplevel_inc, libsofia_sip_ua_inc,
-#     include_directories('../../s2check')],
-#   link_with: [libnua, libiptsec, libipt, libnea, libnta, libsresolv, libtport, libstun, libsoa, libsdp, libsip, libhttp, libmsg, liburl, libbnf, libsu],
-#   dependencies: [check_dep])
-# test('check_nua', check_nua)
+s2check_tests += {
+  'check_nua': {
+    'sources': files(
+      'check_etsi.c',
+      'check_nua.c',
+      'check_nua.h',
+      'check_register.c',
+      'check_session.c',
+      'check_simple.c',
+    ),
+    'include_directories': toplevel_inc,
+    'dependencies': [openssl_dep, zlib_dep, check_dep],
+  },
+}

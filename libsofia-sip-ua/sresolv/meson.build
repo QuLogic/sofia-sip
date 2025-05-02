@@ -50,11 +50,10 @@ libsofia_sip_ua_lib_deps += libsresolv
 #   link_with: [libsresolv, liburl, libbnf, libsu])
 # test('torture_sresolv', torture_sresolv, suite: ['sresolv', 'torture'])
 
-# Needs s2check, which isn't built yet.
-# check_sres_sip = executable(
-#   'check_sres_sip',
-#   'check_sres_sip.c',
-#   include_directories: [toplevel_inc, libsofia_sip_ua_inc, include_directories('../../s2check')],
-#   link_with: [libsresolv, liburl, libbnf, libsu],
-#   dependencies: check_dep)
-# test('check_sres_sip', check_sres_sip, suite: 'sresolv')
+s2check_tests += {
+  'check_sres_sip': {
+    'sources': files('check_sres_sip.c'),
+    'include_directories': toplevel_inc,
+    'dependencies': check_dep,
+  },
+}

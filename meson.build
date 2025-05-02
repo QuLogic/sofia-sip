@@ -861,11 +861,28 @@ conf.set_quoted('VERSION', meson.project_version())
 
 configure_file(output: 'config.h', configuration: conf)
 
+s2check_tests = {}
 subdir('libsofia-sip-ua')
 subdir('libsofia-sip-ua-glib', if_found: glib_dep)
 # subdir('packages')
 subdir('tests')
-# subdir('s2check')
+subdir('s2check')
 # subdir('utils')
 # subdir('win32')
 # subdir('open_c')
+
+# Build everything that needed s2check now.
+foreach name, kwargs : s2check_tests
+  deps = [libsofia_sip_ua_dep, libs2_dep]
+  if kwargs.has_key('dependencies')
+    deps = [kwargs['dependencies']] + deps
+  endif
+  kwargs += {'dependencies': deps}
+  test(
+    name,
+    executable(name, kwargs: kwargs),
+    env: {
+      'SOFIA_SIP_UA_PATH': libsofia_sip_ua_lib.full_path(),
+      'SOFIA_SIP_UA_GLIB_PATH': libsofia_sip_ua_glib_lib.full_path(),
+    })
+endforeach

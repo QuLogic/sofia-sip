@@ -51,10 +51,14 @@ static uint64_t (*su_random64)(void);
 
 START_TEST(load_su_uniqueid)
 {
+  const char *sofia_path = NULL;
   void *sofia;
   uint64_t rnd;
 
-  sofia = dlopen("../libsofia-sip-ua/.libs/libsofia-sip-ua.so", RTLD_NOW);
+  if ((sofia_path = getenv("SOFIA_SIP_UA_PATH")) == NULL) {
+    sofia_path = "../libsofia-sip-ua/.libs/libsofia-sip-ua.so";
+  }
+  sofia = dlopen(sofia_path, RTLD_NOW);
   su_random64 = dlsym(sofia, "su_random64");
   fail_unless(su_random64 != NULL);
   rnd = su_random64();

@@ -65,11 +65,12 @@ if check_dep.found()
   test('check_sofia', check_sofia)
 
   # Needs s2check, which isn't built yet.
-  # check_dlopen_sofia = executable(
-  #   'check_dlopen_sofia',
-  #   'check_dlopen_sofia.c',
-  #   include_directories: [toplevel_inc, include_directories('../s2check')],
-  #   link_with: [libtestnua, libtestproxy, libtestnat],
-  #   dependencies: [libsofia_sip_ua_dep, check_dep, dl_dep])
-  # test('check_dlopen_sofia', check_dlopen_sofia)
+  s2check_tests += {
+    'check_dlopen_sofia': {
+      'sources': files('check_dlopen_sofia.c'),
+      'include_directories': toplevel_inc,
+      'link_with': [libtestnua, libtestproxy, libtestnat],
+      'dependencies': [check_dep, dl_dep],
+    },
+  }
 endif
