@@ -867,7 +867,7 @@ subdir('libsofia-sip-ua-glib', if_found: glib_dep)
 # subdir('packages')
 subdir('tests')
 subdir('s2check')
-# subdir('utils')
+subdir('utils')
 # subdir('win32')
 # subdir('open_c')
 
