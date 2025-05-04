@@ -72,6 +72,7 @@
 #ifndef HAVE_MSG_TRUNC
 #define HAVE_MSG_TRUNC 1
 #endif
+#include <mswsock.h>
 #endif
 
 #if !HAVE_MSG_TRUNC

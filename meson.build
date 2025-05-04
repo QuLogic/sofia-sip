@@ -66,6 +66,11 @@ AC_INCLUDES_DEFAULT = '''
 #endif
 '''
 
+foreach header : ['sys/types.h', 'sys/stat.h', 'string.h', 'strings.h', 'inttypes.h', 'stdint.h', 'unistd.h']
+  name = header.underscorify().to_upper()
+  conf.set10(f'HAVE_@name@', cc.check_header(header))
+endforeach
+
 ### checks for types
 ### ----------------
 
@@ -419,12 +424,14 @@ if get_option('ip6')
              description: 'Define to 1 if you have struct sockaddr_in6')
 endif
 
-foreach header: ['unistd.h', 'sys/time.h', 'fcntl.h', 'dirent.h']
+foreach header: ['fcntl.h', 'dirent.h']
   name = header.underscorify().to_upper()
   conf.set10(f'HAVE_@name@', cc.check_header(header, required: false))
 endforeach
 
 if cc.check_header('winsock2.h', required: false)
+  conf.set10('HAVE_WINSOCK2_H', true,
+             description: 'Define to 1 you have WinSock2')
   conf.set10('HAVE_WIN32', true,
              description: 'Define to 1 you have WIN32')
   conf.set10('SU_HAVE_WINSOCK', true,
@@ -460,7 +467,7 @@ else
 
   conf.set10('SU_HAVE_BSDSOCK', true,
              description: 'Define to 1 if you have BSD socket interface')
-  foreach header: ['sys/socket.h', 'sys/ioctl.h', 'sys/filio.h', 'sys/sockio.h', 'sys/select.h', 'sys/epoll.h', 'sys/devpoll.h']
+  foreach header: ['sys/socket.h', 'sys/ioctl.h', 'sys/filio.h', 'sys/sockio.h', 'sys/select.h', 'sys/epoll.h', 'sys/devpoll.h', 'sys/wait.h']
     name = header.underscorify().to_upper()
     conf.set10(f'HAVE_@name@', cc.check_header(header, required: false))
   endforeach
@@ -591,9 +598,11 @@ glib_dep = dependency('glib-2.0', required: get_option('glib'))
 ## ===========================================================================
 
 library_functions = {
-  'getaddrinfo': ['xnet', 'socket', 'nsl'],
+  'freeaddrinfo': ['ws2_32'],
+  'getaddrinfo': ['xnet', 'socket', 'nsl', 'ws2_32'],
   'gethostbyname': ['xnet', 'nsl'],
   'getipnodebyname': ['xnet', 'socket', 'nsl'],
+  'getnameinfo': ['ws2_32'],
   'inet_ntop': ['socket', 'nsl'],
   'inet_pton': ['socket', 'nsl'],
   'socket': ['xnet', 'socket'],
@@ -616,18 +625,33 @@ foreach func, alternates : library_functions
   endif
 endforeach
 
+# This gets the weird text suffix on Windows.
+conf.set10('HAVE_GAI_STRERROR', false)
+foreach func : ['gai_strerror', 'gai_strerrorA']
+  if cc.has_function(func)
+    conf.set10('HAVE_GAI_STRERROR', true)
+    break
+  else
+    altlib = cc.find_library('ws2_32', required: false)
+    if altlib.found() and cc.has_function(func, dependencies: altlib)
+      LIBS += altlib
+      conf.set10('HAVE_GAI_STRERROR', true)
+      break
+    endif
+  endif
+endforeach
+
 conf.set10('HAVE_ALLOCA_H', cc.check_header('alloca.h'))
 
 foreach func : ['gettimeofday', 'strerror', 'random', 'initstate', 'tcsetattr', 'flock',
-                'socketpair', 'gethostname', 'gethostbyname', 'getipnodebyname',
+                'socketpair', 'gethostname', 'getifaddrs',
                 'poll', 'epoll_create', 'kqueue', 'select', 'if_nameindex',
                 'signal', 'alarm',
                 'strnlen',
-                'getaddrinfo', 'getnameinfo', 'freeaddrinfo', 'gai_strerror', 'getifaddrs',
                 ## getline getdelim getpass are _gnu_source stuff
                 'getline', 'getdelim', 'getpass',
                 # Possible substitutions in su/.
-                'memmem', 'memccpy', 'memspn', 'memcspn', 'strtoull', 'inet_ntop', 'inet_pton', 'poll']
+                'memmem', 'memccpy', 'memspn', 'memcspn', 'strtoull', 'poll']
   name = func.underscorify().to_upper()
   conf.set10(f'HAVE_@name@', cc.has_function(func))
 endforeach

@@ -26,6 +26,7 @@ libsresolv_SOURCES = [
 libsresolv = static_library(
   'sresolv',
   libsresolv_SOURCES,
+  c_args: ['-DIN_LIBSOFIA_SIP_UA', '-DIN_LIBSOFIA_SRES'],
   include_directories: [toplevel_inc, libsofia_sip_ua_inc],
 )
 

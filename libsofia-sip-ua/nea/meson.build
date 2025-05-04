@@ -32,6 +32,7 @@ libnea_SOURCES = [
 libnea = static_library(
   'nea',
   libnea_SOURCES,
+  c_args: '-DIN_LIBSOFIA_SIP_UA',
   include_directories: [toplevel_inc, libsofia_sip_ua_inc],
 )
 

@@ -9,12 +9,19 @@
 #define B64BUFFLEN 1024
 
 #include <sys/types.h>
-#ifndef _MSC_VER
+#if HAVE_ARPA_INET_H
 #include <arpa/inet.h>
+#endif
+#if HAVE_SYS_WAIT_H
 #include <sys/wait.h> 
+#endif
+#if HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
+#endif
+#if HAVE_UNISTD_H
 #include <unistd.h>
-#else
+#endif
+#ifdef _MSC_VER
 #pragma warning(disable:4996)
 #endif
 #include <string.h>
@@ -28,7 +35,7 @@
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 
-#if defined(_MSC_VER) || defined(__APPLE__) || defined(__FreeBSD__) || (defined(__SVR4) && defined(__sun)) 
+#if defined(_WIN32) || defined(__APPLE__) || defined(__FreeBSD__) || (defined(__SVR4) && defined(__sun))
 #define __bswap_64(x) \
   x = (x>>56) | \
     ((x<<40) & 0x00FF000000000000) | \

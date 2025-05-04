@@ -53,6 +53,9 @@ typedef unsigned _int32 uint32_t;
 #if HAVE_WINSOCK2_H
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#ifdef HAVE_SELECT
+#undef HAVE_SELECT
+#endif
 #define HAVE_SELECT 1
 #else
 #define SOCKET_ERROR   (-1)

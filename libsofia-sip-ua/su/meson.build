@@ -76,6 +76,7 @@ endforeach
 libsu = static_library(
   'su',
   libsu_SOURCES,
+  c_args: '-DIN_LIBSOFIA_SIP_UA',
   include_directories: toplevel_inc,
   dependencies: [pthread_dep],
 )

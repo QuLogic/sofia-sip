@@ -33,6 +33,10 @@
 
 #include "config.h"
 
+#if HAVE_FCNTL_H
+#include <fcntl.h>
+#endif
+
 #include "test_nua.h"
 
 #include <sofia-sip/tport_tag.h>

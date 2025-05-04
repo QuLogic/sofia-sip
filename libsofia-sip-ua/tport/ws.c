@@ -2,7 +2,7 @@
 #include "ws.h"
 #include <pthread.h>
 
-#ifndef _MSC_VER
+#ifndef _WIN32
 #include <fcntl.h>
 #endif
 
@@ -609,7 +609,7 @@ ssize_t ws_raw_write(wsh_t *wsh, void *data, size_t bytes)
 	return r < 0 ? r : wrote;
 }
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 static int setup_socket(ws_socket_t sock)
 {
 	unsigned long v = 1;

@@ -30,6 +30,7 @@ libsdp_SOURCES = [
 libsdp = static_library(
   'sdp',
   libsdp_SOURCES,
+  c_args: '-DIN_LIBSOFIA_SIP_UA',
   include_directories: [toplevel_inc, libsofia_sip_ua_inc],
 )
 

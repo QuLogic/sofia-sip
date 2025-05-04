@@ -61,7 +61,9 @@ static char const __func__[] = "tport_type_tls";
 #if HAVE_WIN32
 #include <io.h>
 #define access(_filename, _mode) _access(_filename, _mode)
+#ifndef R_OK
 #define R_OK (04)
+#endif
 #endif
 
 /* ---------------------------------------------------------------------- */
